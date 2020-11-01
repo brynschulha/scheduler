@@ -17,13 +17,13 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
-  function save(name, interviewer) {
+  const save = async (name, interviewer) => {
     const interview = {
       student: name,
       interviewer,
     };
     transition(SAVING);
-    props.bookInterview(props.id, interview);
+    await props.bookInterview(props.id, interview);
     transition(SHOW);
   }
 
