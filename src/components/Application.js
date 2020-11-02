@@ -17,7 +17,7 @@ export default function Application(props) {
 
   const setDay = day => setState({ ...state, day });
 
-  async function bookInterview(id, interview) {
+  function bookInterview(id, interview) {
     console.log('bookInterview', id, interview);
     
     const appointment = {
@@ -29,39 +29,47 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    await axios
+    return axios
     .put(
       `/api/appointments/${id}`, 
         {interview}
     )
-    .then(() => setState({...state, appointments}),
-     console.log('state', state)
-    )
-    .catch(err => console.log(err));
+    .then(() => {
+      console.log('state', state)
+      setState({...state, appointments})
+    })
+    .catch(err => {
+      console.log(err)
+      throw err
+    });
   };
 
-  async function cancelInterview (id, interview) {
+  function cancelInterview (id, interview) {
     console.log('cancelInterview', id ,interview);
     interview = null;
     console.log('interview', interview);
     const appointment = {
       ...state.appointments[id],
-      interview: interview // Ensure interview is defined or null before spread!
+      interview: interview 
     };
     const appointments = {
       ...state.appointments,
       [id]: appointment
     };
     console.log(interview)
-    await axios
+    return axios
     .delete(
       `/api/appointments/${id}`, 
-        interview
+      interview
     )
-    .then(() => setState({...state, appointments}),
-     console.log('state', state)
-    )
-    .catch(err => console.log(err));
+    .then(() => {
+      console.log('state', state);
+      return setState({...state, appointments});
+    })
+    .catch(err => {
+      console.log("Error in axios delete", err);
+      throw err;
+    });
   }
   
   useEffect(() => {
