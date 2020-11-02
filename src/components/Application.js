@@ -40,23 +40,29 @@ export default function Application(props) {
     .catch(err => console.log(err));
   };
 
-  // function cancelInterview (id, interview) {
-  //   console.log('cancelInterview', id ,interview);
-  //   interview = null
-  //   console.log('interview', interview);
-  //   const appointment = {
-  //     ...state.appointments[id],
-  //     interview: {} // Ensure interview is defined or null before spread!
-  //   };
-  //   const appointments = {
-  //     ...state.appointments,
-  //     [id]: appointment
-  //   };
-  //   setState({
-  //     ...state,
-  //     appointments
-  //   });
-  // };
+  async function cancelInterview (id, interview) {
+    console.log('cancelInterview', id ,interview);
+    interview = null;
+    console.log('interview', interview);
+    const appointment = {
+      ...state.appointments[id],
+      interview: interview // Ensure interview is defined or null before spread!
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment
+    };
+    console.log(interview)
+    await axios
+    .delete(
+      `/api/appointments/${id}`, 
+        interview
+    )
+    .then(() => setState({...state, appointments}),
+     console.log('state', state)
+    )
+    .catch(err => console.log(err));
+  }
   
   useEffect(() => {
     Promise.all([
@@ -86,7 +92,7 @@ export default function Application(props) {
         interview={interview}
         interviewers={interviewers}
         bookInterview={bookInterview}
-        // cancelInterview={cancelInterview}
+        cancelInterview={cancelInterview}
       />
     );
   });
