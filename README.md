@@ -1,5 +1,12 @@
 # Interview Scheduler
 
+Interview Scheduler is a single-page app that lets users schedule appointments.
+
+## Screenshots
+![""]()
+![""]()
+![""]()
+
 ## Setup
 
 Install dependencies with `npm install`.
@@ -21,3 +28,4 @@ npm test
 ```sh
 npm run storybook
 ```
+
